@@ -6,7 +6,7 @@ Imports System.Web.Http
 
 Public Module WebApiConfig
     Public Sub Register(ByVal config As HttpConfiguration)
-        ' Web API configuration and services
+        ' Web API configuration and services.
         config.Formatters.JsonFormatter.SupportedMediaTypes.Add(New MediaTypeHeaderValue("text/html"))
         ' Web API routes
         config.MapHttpAttributeRoutes()
