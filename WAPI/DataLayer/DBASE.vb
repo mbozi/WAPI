@@ -9,6 +9,7 @@ Public Class DBASE
     Public Structure Poll
         Public Property ID As Integer
         Public Property PollsterID As Integer
+        Public Property Pollster As String
         Public Property Fieldwork As Date
         Public Property CON As Decimal
         Public Property LAB As Decimal
@@ -52,7 +53,7 @@ Public Class DBASE
     Public Shared Function GetPolls(Optional PollsterID As Integer = 0) As IEnumerable(Of Poll)
         Try
             Dim output As New List(Of Poll)
-            Dim strSQl As String = "SELECT ID,PollsterID,Fieldwork,CON,LAB,LIB,BRX,SNP,GRN,PLC,UKP FROM Polls"
+            Dim strSQl As String = "SELECT p.ID, p.PollsterID, ps.Pollster, p.Fieldwork, p.CON, p.LAB, p.LIB, p.BRX, p.SNP, p.GRN, p.PLC, p.UKP FROM dbo.Polls AS p LEFT OUTER JOIN dbo.Pollster AS ps ON p.PollsterID = ps.ID"
             Dim strFilter As String = ""
             If PollsterID > 0 Then strFilter &= " WHERE PollsterID =" & PollsterID.ToString
             strSQl &= strFilter
@@ -65,6 +66,7 @@ Public Class DBASE
                                 Dim pi As New Poll With {
                                 .ID = CType(RDR.Item("ID"), Integer),
                                 .PollsterID = CType(RDR.Item("PollsterID"), Integer),
+                                .Pollster = RDR.Item("Pollster").ToString,
                                 .Fieldwork = CType(RDR.Item("Fieldwork"), Date),
                                 .CON = CType(RDR.Item("CON"), Decimal),
                                 .LAB = CType(RDR.Item("LAB"), Decimal),
